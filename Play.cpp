@@ -326,7 +326,6 @@ void update()
             if (ok == true) k++;
         }
     }
-
     //Ten lua va cham may bay dong minh
     for (int j = 0; j < Rks.size(); j++)
     {
@@ -340,7 +339,21 @@ void update()
                 break;
             }
     }
-
+    //Xu li HP
+    i = 0;
+    while (i < HPBox.size())
+    {
+        bool ok = true;
+        SDL_Rect tam2 = {HPBox[i].x, HPBox[i].y, HPBox[i].w, HPBox[i].h};
+        SDL_Rect tam3 = {Plane.x, Plane.y, Plane.w, Plane.h};
+        if (CheckCollision(tam2, tam3) == true)
+        {
+            Plane.hp += 20;
+            HPBox.erase(HPBox.begin() + i);
+            ok = false;
+        }
+        if (ok == true) i++;
+    }
     //Cac vu no
 
     if (Plane.alive1() == true)
@@ -444,6 +457,7 @@ void reset()
     Rks.clear();
     Explosions.clear();
     Plane.status.close();
+    HPBox.clear();
 }
 
 //close
@@ -475,6 +489,7 @@ void close()
     EnemyPlane.clear();
     EnemyPlane2.clear();
     Explosions.clear();
+    HPBox.clear();
 }
 
 //Loadmedia
@@ -491,7 +506,8 @@ void loadmedia(SDL_Renderer *&gRenderer, TTF_Font *&gFont, TTF_Font *&pFont)
     EPlane2.loadfromfile(gRenderer, "EnemyPlane2.png");
     Rkt.loadfromfile(gRenderer, "Rocket.png");
     BB.loadfromfile(gRenderer, "Explosion.png");
-
+    hp.loadfromfile(gRenderer, "HP.png");
+    
     PressP.loadfromrenderedtext(gRenderer, pFont, "Press P to Continue", Color);
     PressB.loadfromrenderedtext(gRenderer, pFont, "Press B to Back to Menu", Color);
     Die.loadfromrenderedtext(gRenderer, pFont, "You died!", Color);
@@ -658,6 +674,12 @@ void xuly(int &check_background, SDL_Window *&gWindow, SDL_Renderer *&gRenderer,
                     else i++;
                 }
                 i = 0;
+                while (i < HPBox.size())
+                {
+                    if (HPBox[i].move1() == false) HPBox.erase(HPBox.begin() + i);
+                    else i++;
+                }
+                i = 0;
                 while (i < Rks.size())
                 {
                     if (Rks[i].move1() == false)
@@ -677,6 +699,8 @@ void xuly(int &check_background, SDL_Window *&gWindow, SDL_Renderer *&gRenderer,
                 EnemyPlane2[i].render(gRenderer, gFont, EPlane2, Bullet);
             for (int i = 0; i < Rks.size(); i++)
                 Rks[i].render(gRenderer, gFont, Rkt);
+            for (int i = 0; i < HPBox.size(); i++)
+                HPBox[i].render(gRenderer, hp);
             if (paused == true)
             {
                 PressP.render(gRenderer, (Width - PressP.getWidth()) / 2, (Height - PressP.getHeight()) / 2);
