@@ -132,7 +132,97 @@ void sinh(int sl1, int sl2, int sl3)
 
 void update()
 {
+    //May bay dong minh va cham may bay dich
 
+    vector <SDL_Rect> tam1 = Plane.getRect();
+    for (int i = 0; i < EnemyPlane.size(); i++)
+        if (EnemyPlane[i].alive1() == true)
+        {
+            vector <SDL_Rect> tam2 = EnemyPlane[i].getRect();
+            for (int j = 0; j < tam1.size(); j++)
+            {
+                bool ok = true;
+                for (int k = 0; k < tam2.size(); k++)
+                    if (CheckCollision(tam1[j], tam2[k]) == true)
+                    {
+                        Plane.hp -= 30;
+                        EnemyPlane[i].hp = 0;
+                        ok = false;
+                        break;
+                    }
+                if (ok == false) break;
+            }
+        }
+
+    for (int i = 0; i < EnemyPlane2.size(); i++)
+        if (EnemyPlane2[i].alive1() == true)
+        {
+            vector <SDL_Rect> tam2 = EnemyPlane2[i].getRect();
+            for (int j = 0; j < tam1.size(); j++)
+            {
+                bool ok = true;
+                for (int k = 0; k < tam2.size(); k++)
+                    if (CheckCollision(tam1[j], tam2[k]) == true)
+                    {
+                        Plane.hp -= 50;
+                        EnemyPlane2[i].hp = 0;
+                        ok = false;
+                        break;
+                    }
+                if (ok == false) break;
+            }
+        }
+
+    //May bay dich va cham may bay dich
+
+    for (int i = 0; i < EnemyPlane.size(); i++)
+        if (EnemyPlane[i].alive1() == true)
+        {
+            SDL_Rect tam2 = {EnemyPlane[i].x, EnemyPlane[i].y, EnemyPlane[i].w, EnemyPlane[i].h};
+            for (int j = i + 1; j < EnemyPlane.size(); j++)
+                if (EnemyPlane[j].alive1() == true)
+                {
+                    SDL_Rect tam3 = {EnemyPlane[j].x, EnemyPlane[j].y, EnemyPlane[j].w, EnemyPlane[j].h};
+                    if (CheckCollision(tam2, tam3) == true)
+                    {
+                        EnemyPlane[i].vx = -EnemyPlane[i].vx;
+                        EnemyPlane[j].vx = -EnemyPlane[j].vx;
+                    }
+                }
+        }
+
+    for (int i = 0; i < EnemyPlane2.size(); i++)
+        if (EnemyPlane2[i].alive1() == true)
+        {
+            SDL_Rect tam2 = {EnemyPlane2[i].x, EnemyPlane2[i].y - EnemyPlane2[i].status.getHeight(), EnemyPlane2[i].w, EnemyPlane2[i].h + EnemyPlane2[i].status.getHeight()};
+            for (int j = i + 1; j < EnemyPlane2.size(); j++)
+                if (EnemyPlane2[j].alive1() == true)
+                {
+                    SDL_Rect tam3 = {EnemyPlane2[j].x, EnemyPlane2[j].y - EnemyPlane2[j].status.getHeight(), EnemyPlane2[j].w, EnemyPlane2[j].h + EnemyPlane2[j].status.getHeight()};
+                    if (CheckCollision(tam2, tam3) == true)
+                    {
+                        EnemyPlane2[i].vx = -EnemyPlane2[i].vx;
+                        EnemyPlane2[j].vx = -EnemyPlane2[j].vx;
+                    }
+                }
+        }
+
+    for (int i = 0; i < EnemyPlane.size(); i++)
+        if (EnemyPlane[i].alive1() == true)
+        {
+            SDL_Rect tam2 = {EnemyPlane[i].x, EnemyPlane[i].y, EnemyPlane[i].w, EnemyPlane[i].h};
+            for (int j = 0; j < EnemyPlane2.size(); j++)
+                if (EnemyPlane2[j].alive1() == true)
+                {
+                    SDL_Rect tam3 = {EnemyPlane2[j].x, EnemyPlane2[j].y - EnemyPlane2[j].status.getHeight(), EnemyPlane2[j].w, EnemyPlane2[j].h + EnemyPlane2[j].status.getHeight()};
+                    if (CheckCollision(tam2, tam3) == true)
+                    {
+                        EnemyPlane[i].vx = -EnemyPlane[i].vx;
+                        EnemyPlane2[j].vx = -EnemyPlane2[j].vx;
+                    }
+                }
+        }
+    
     //Dan va cham may bay dich
 
     int i = 0;
