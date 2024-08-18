@@ -1,5 +1,6 @@
 # CS-plane-BTL_LTNC
-Plane shooter using c++ and sdl2 lib
+Plane shooter using c++ and sdl2 lib<br/>
+video demo: https://drive.google.com/file/d/1ZSkrUxB5aGj_wxr0t92WXuPqRaHmDcbc/view?usp=sharing
 
 # Giới thiệu game
 
